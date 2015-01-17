@@ -5,28 +5,6 @@ class PatchSet(models.Model):
     comments = models.TextField()
     pub_date = models.DateTimeField('date published')
 
-
-class Instrument(models.Model):
-    name = models.CharField(max_length=5)
-    type = models.ForeignKey(InsrumentType)
-    envelope = models.CharField(max_length=2)
-    wave = models.DecimalField(max_digits=3, decimal_places=1)
-    ouput = models.CharField(max_length=2)
-    length = models.CharField(max_length=5)
-    sweep = models.CharField(max_length=2)
-    vib_type = models.CharField(max_length=10)
-    pu2_tune = models.CharField(max_length=2)
-    pu_fine = models.CharField(max_length=1)
-    automate = models.BooleanField()
-    table = models.ForeignField(Table)
-    comments = models.TextField()
-    pub_date = models.DateTimeField('date published')
-
-
-class InstrumentType(models.Model):
-    name = models.CharField()
-
-
 class Table(models.Model):
     name = models.CharField(max_length=2)
 
@@ -52,6 +30,51 @@ class WavePosition(models.Model):
     value = models.CharField(max_length=1)
     
 
+class Instrument(models.Model):
+    LEFT = 'L'
+    RIGHT = 'R'
+    BOTH = 'LR'
+    OFF = ''
+    
+    OUTPUT_CHOICES = (
+        (BOTH, BOTH),
+        (LEFT, LEFT),
+        (RIGHT, RIGHT),
+        (OFF, 'Off'),
+    )
+
+    PULSE = 'Pulse'
+    WAVE = 'Wave'
+    KIT = 'Kit'
+    NOISE = 'Noise'
+
+    TYPE_CHOICES = (
+        (PULSE, PULSE),
+        (WAVE, WAVE),
+        (KIT, KIT),
+        (NOISE, NOISE),
+    )
+        
+    name = models.CharField(max_length=5)
+    type = models.CharField(max_length=5,
+                            choices=TYPE_CHOICES,
+                            default=PULSE)
+    envelope = models.CharField(max_length=2)
+    wave = models.DecimalField(max_digits=3, decimal_places=1)
+    ouput = models.CharField(max_length=2,
+                             choices=OUTPUT_CHOICES,
+                             default=BOTH)
+    length = models.CharField(max_length=5, null=True, blank=True)
+    sweep = models.CharField(max_length=2)
+    vib_type = models.CharField(max_length=10)
+    pu2_tune = models.CharField(max_length=2)
+    pu_fine = models.CharField(max_length=1)
+    automate = models.BooleanField(default=False)
+    table = models.ForeignKey(Table, null=True, blank=True)
+    comments = models.TextField()
+    pub_date = models.DateTimeField('date published')
+
+    
 class Tag(models.Model):
     name = models.CharField(max_length=100)
 
