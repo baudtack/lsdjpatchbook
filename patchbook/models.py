@@ -5,7 +5,7 @@ class PatchSet(models.Model):
     comments = models.TextField()
     pub_date = models.DateTimeField('date published')
 
-# the char fields should be replaced with custom fields
+
 class Instrument(models.Model):
     name = models.CharField(max_length=5)
     type = models.ForeignKey(InsrumentType)
@@ -18,7 +18,7 @@ class Instrument(models.Model):
     pu2_tune = models.CharField(max_length=2)
     pu_fine = models.CharField(max_length=1)
     automate = models.BooleanField()
-    table = models.CharField(max_length=2)
+    table = models.ForeignField(Table)
     comments = models.TextField()
     pub_date = models.DateTimeField('date published')
 
@@ -28,16 +28,32 @@ class InstrumentType(models.Model):
 
 
 class Table(models.Model):
-    vol_0 = models.CharField(max_length=2)
+    name = models.CharField(max_length=2)
 
 
-# need to decide how to associate these to instruments
+class TableRow(models.Model):
+    table = models.ForeignKey(Table)
+    position = models.IntegerField()
+    vol = models.CharField(max_length=2)
+    tsp = models.CharField(max_length=2)
+    cmd1 = models.CharField(max_length=1)
+    cmd1_setting = models.CharField(max_length=2)
+    cmd2 = models.CharField(max_length=1)
+    cmd2_setting = models.CharField(max_length=2)
+
+
 class Wave(models.Model):
-    pos_1 = models.CharField(max_length=1)
+    name = models.CharField(max_length=2)
 
+
+class WavePosition(models.Model):
+    wave = models.ForeignKey(Wave)
+    position = models.CharField(max_length=1)
+    value = models.CharField(max_length=1)
+    
 
 class Tag(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=100)
 
 
 class InstrumentTag(models.Model):
