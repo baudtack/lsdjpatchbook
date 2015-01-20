@@ -1,14 +1,23 @@
 from django.db import models
+from django.forms import ModelForm
+
 
 class PatchSet(models.Model):
     name = models.CharField(max_length=200)
     comments = models.TextField()
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField(auto_now_add=True)
+
+
+class PatchSetForm(ModelForm):
+    class Meta:
+        model = PatchSet
+        fields = ['name', 'comments']
+
 
 class Table(models.Model):
     name = models.CharField(max_length=2)
 
-
+    
 class TableRow(models.Model):
     table = models.ForeignKey(Table)
     position = models.IntegerField()
