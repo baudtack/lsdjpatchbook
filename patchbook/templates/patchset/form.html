@@ -1,5 +1,9 @@
 <form method="post" action="">
+  <table>  
   {% csrf_token %}  
   {{ form }}
+  <tr><th><h2>Instrument</h2></th></tr>
+  {{ instrument_form }}
+  </table>  
   <input type="submit" value="Submit" />  
 </form>  

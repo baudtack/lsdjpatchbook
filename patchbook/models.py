@@ -63,14 +63,23 @@ class Instrument(models.Model):
         (KIT, KIT),
         (NOISE, NOISE),
     )
+
+    WAVE_CHOICES = {
+        (12.5, '12.5%'),
+        (25, '25%'),
+        (50, '50%'),
+        (75, '75%'),
+    }
         
     name = models.CharField(max_length=5)
     type = models.CharField(max_length=5,
                             choices=TYPE_CHOICES,
                             default=PULSE)
     envelope = models.CharField(max_length=2)
-    wave = models.DecimalField(max_digits=3, decimal_places=1)
-    ouput = models.CharField(max_length=2,
+    wave = models.DecimalField(max_digits=3,
+                               choices=WAVE_CHOICES,
+                               decimal_places=1)
+    output = models.CharField(max_length=2,
                              choices=OUTPUT_CHOICES,
                              default=BOTH)
     length = models.CharField(max_length=5, null=True, blank=True)
@@ -81,8 +90,18 @@ class Instrument(models.Model):
     automate = models.BooleanField(default=False)
     table = models.ForeignKey(Table, null=True, blank=True)
     comments = models.TextField()
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField(auto_now_add=True)
 
+
+class InstrumentForm(ModelForm):
+    class Meta:
+        model = Instrument
+        fields = ['name', 'type', 'envelope',
+                  'wave', 'output', 'length',
+                  'sweep', 'vib_type', 'pu2_tune',
+                  'pu_fine', 'automate', 'table',
+                  'comments']
+    
     
 class Tag(models.Model):
     name = models.CharField(max_length=100)
