@@ -15,18 +15,30 @@ class PatchSetForm(ModelForm):
 
 
 class Table(models.Model):
-    name = models.CharField(max_length=2)
+    name = models.CharField(max_length=10)
 
-    
+
+class TableForm(ModelForm):
+    class Meta:
+        model = Table
+        fields = ['name']
+
+
 class TableRow(models.Model):
     table = models.ForeignKey(Table)
     position = models.IntegerField()
     vol = models.CharField(max_length=2)
     tsp = models.CharField(max_length=2)
-    cmd1 = models.CharField(max_length=1)
+    cmd1 = models.CharField(max_length=1,blank=True)
     cmd1_setting = models.CharField(max_length=2)
-    cmd2 = models.CharField(max_length=1)
+    cmd2 = models.CharField(max_length=1,blank=True)
     cmd2_setting = models.CharField(max_length=2)
+
+
+class TableRowForm(ModelForm):
+    class Meta:
+        model = TableRow
+        fields = '__all__'
 
 
 class Wave(models.Model):

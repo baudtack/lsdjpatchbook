@@ -4,6 +4,26 @@
   {{ form }}
   <tr><th><h2>Instrument</h2></th></tr>
   {{ instrument_form }}
-  </table>  
+  <tr><th><h2>Table</h2></th></tr>
+  {{ table_form }}
+  <tr>
+    <td>
+      <table>
+	<thead><th>&nbsp;</th><th>VOL</th><th>TSP</th><th colspan="2">CMD</th><th colspan="2">CMD</th>
+	{% for table_row in table_rows %}
+	  <tr>
+	    <td>{{table_row.position}}</td>
+	    <td>{{table_row.vol}}</td>
+	    <td>{{table_row.tsp}}</td>
+	    <td>{{table_row.cmd1}}</td>
+	    <td>{{table_row.cmd1_setting}}</td>
+	    <td>{{table_row.cmd2}}</td>
+	    <td>{{table_row.cmd2_setting}}</td>
+	  </tr>
+	  {% endfor %}
+      <table>
+    </td>
+  </tr>
+  </table>
   <input type="submit" value="Submit" />  
 </form>  
